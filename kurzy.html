@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kurzy práce s energií | Poradna Vesna</title>
+    <meta name="description" content="Kurz Základy práce s energií - interaktivní výuka čaker, živlů, dechových cvičení a energetických principů.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fefaf5;
+            color: #1e2f2a;
+            line-height: 1.5;
+        }
+
+        /* Typografie */
+        h1, h2, h3, .logo, .serif, .nav-menu a {
+            font-family: 'Georgia', 'Playfair Display', serif;
+        }
+
+        /* === HORNÍ NAVIGAČNÍ PANEL === */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 0.6rem 2rem;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .top-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .top-logo-symbol {
+            background: #4a7c5c;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .top-logo-text {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #1a3a2a;
+        }
+
+        .top-logo-small {
+            font-size: 0.65rem;
+            color: #6b8b6b;
+        }
+
+        .back-button {
+            background: #4a7c5c;
+            color: white !important;
+            padding: 0.45rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-button:hover {
+            background: #2f5a42;
+        }
+
+        /* Layout - flex s levým menu */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 62px;
+        }
+
+        /* LEVÉ MENU */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e2e8e0;
+            position: fixed;
+            top: 62px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 99;
+            padding: 1.5rem 0;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.02);
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #3a5a4a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-menu a:hover {
+            background: #f0f6ef;
+            color: #2c5e46;
+            border-left-color: #4a7c5c;
+        }
+
+        .nav-menu a.active {
+            background: #eaf4e6;
+            color: #2c5e46;
+            font-weight: 600;
+            border-left-color: #4a7c5c;
+        }
+
+        /* HLAVNÍ OBSAH */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 2rem 3rem 2rem;
+            max-width: calc(100% - 280px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Hero sekce */
+        .hero {
+            background: linear-gradient(135deg, #2c5e46, #528a6a);
+            color: white;
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin: 0.8rem 0 0.5rem;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .tag {
+            background: rgba(255,255,255,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+        }
+
+        /* Sekce */
+        .section {
+            scroll-margin-top: 80px;
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            margin-bottom: 1.5rem;
+        }
+        .section-tag {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #6a8e7a;
+            text-transform: uppercase;
+        }
+        .section-title h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: #4a7c5c;
+            margin: 0.7rem 0 1rem;
+        }
+
+        /* Karty */
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #e6ede5;
+        }
+        .info-card {
+            background: #f5faf5;
+            border-left: 5px solid #4a7c5c;
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+
+        /* INTERAKTIVNÍ TLAČÍTKA ŽIVLŮ S EFEKTY */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .topic-btn {
+            background: #f0f6ef;
+            border: 1px solid #d4e0d0;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* --- EFEKTY PRO JEDNOTLIVÉ ŽIVLY --- */
+        /* VODA - kapky a vlnění */
+        .topic-btn[data-topic="voda"],
+        .topic-btn[data-topic="dech-voda"] {
+            transition: all 0.3s ease;
+        }
+        .topic-btn[data-topic="voda"]:hover,
+        .topic-btn[data-topic="dech-voda"]:hover {
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            color: white;
+            border-color: #2193b0;
+            box-shadow: 0 0 20px rgba(33,147,176,0.5);
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .water-effect.active {
+            animation: waterPulse 0.6s ease-out;
+        }
+        @keyframes waterPulse {
+            0% { box-shadow: 0 0 0 0 rgba(33,147,176,0.7); background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+            70% { box-shadow: 0 0 0 15px rgba(33,147,176,0); background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+            100% { box-shadow: 0 0 0 0 rgba(33,147,176,0); background: #f0f6ef; color: #1e2f2a; }
+        }
+
+        /* OHEŇ - plameny a teplo */
+        .topic-btn[data-topic="ohen"],
+        .topic-btn[data-topic="dech-ohen"]:hover {
+            background: linear-gradient(135deg, #f12711, #f5af19);
+            color: white;
+            border-color: #f12711;
+            box-shadow: 0 0 20px rgba(241,39,17,0.5);
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .fire-effect.active {
+            animation: fireBlaze 0.5s ease-out;
+        }
+        @keyframes fireBlaze {
+            0% { box-shadow: 0 0 0 0 rgba(241,39,17,0.8); background: linear-gradient(135deg, #f12711, #f5af19); transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 15px rgba(241,39,17,0); background: #f0f6ef; transform: scale(1); }
+        }
+
+        /* VZDUCH - vítr a pohyb */
+        .topic-btn[data-topic="vzduch"],
+        .topic-btn[data-topic="dech-vzduch"]:hover {
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            color: white;
+            border-color: #00b4db;
+            box-shadow: 0 0 15px rgba(0,180,219,0.5);
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .air-effect.active {
+            animation: airSway 0.5s ease-out;
+        }
+        @keyframes airSway {
+            0% { transform: translateX(0); box-shadow: 0 0 0 0 rgba(0,180,219,0.6); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); box-shadow: 0 0 0 10px rgba(0,180,219,0); }
+        }
+
+        /* ZEMĚ - ztuhnutí a pevnost */
+        .topic-btn[data-topic="zeme"],
+        .topic-btn[data-topic="dech-zeme"]:hover {
+            background: linear-gradient(135deg, #5a3f1a, #8b6946);
+            color: white;
+            border-color: #5a3f1a;
+            box-shadow: 0 0 15px rgba(90,63,26,0.5);
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .earth-effect.active {
+            animation: earthShake 0.4s ease-out;
+        }
+        @keyframes earthShake {
+            0% { transform: translateY(0); box-shadow: 0 0 0 0 rgba(90,63,26,0.6); }
+            25% { transform: translateY(-3px); }
+            75% { transform: translateY(3px); }
+            100% { transform: translateY(0); box-shadow: 0 0 0 10px rgba(90,63,26,0); }
+        }
+
+        .topic-detail {
+            display: none;
+            background: #fefefe;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-top: 0.5rem;
+            border-left: 4px solid #4a7c5c;
+            background: #fafdf8;
+        }
+        .topic-detail.show {
+            display: block;
+        }
+
+        .chakra-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            border-bottom: 1px solid #ecf3e9;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .chakra-item:hover {
+            background: #f8fcf7;
+        }
+        .chakra-color {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .chakra-detail {
+            padding: 0.8rem 1rem 1rem 3rem;
+            background: #ffffff;
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+        .energy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Tabulka */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        th, td {
+            border: 1px solid #dce5db;
+            padding: 0.6rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #eef3ea;
+            font-weight: 600;
+        }
+
+        footer {
+            background: #14261e;
+            color: #b1c7bb;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            border-radius: 1rem;
+        }
+
+        /* Mobilní verze */
+        @media (max-width: 768px) {
+            .top-navbar { padding: 0.5rem 1rem; }
+            .top-logo-text { font-size: 0.85rem; }
+            .top-logo-small { font-size: 0.55rem; }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                width: 260px;
+                top: 58px;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+            .menu-toggle {
+                display: inline-block !important;
+                background: #4a7c5c;
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+                cursor: pointer;
+            }
+        }
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        .menu-toggle {
+            display: none;
+        }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 1rem; }
+        .mt-4 { margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<!-- HORNÍ NAVIGAČNÍ PANEL -->
+<nav class="top-navbar">
+    <div class="top-nav-container">
+        <a href="index.html" class="top-logo">
+            <div class="top-logo-symbol">🌿</div>
+            <div>
+                <div class="top-logo-text">Poradna Vesna</div>
+                <div class="top-logo-small">Lenka Perníčková</div>
+            </div>
+        </a>
+        <a href="index.html" class="back-button">
+            ← Zpět na hlavní stránku
+        </a>
+    </div>
+</nav>
+
+<div class="app-layout">
+    <!-- Levé menu -->
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li><a href="#hero" class="nav-link-item active">Úvod</a></li>
+            <li><a href="#energoinformacni-pole" class="nav-link-item">Energoinformační pole</a></li>
+            <li><a href="#chakry" class="nav-link-item">Čakry</a></li>
+            <li><a href="#zivly" class="nav-link-item">Živly</a></li>
+            <li><a href="#dech" class="nav-link-item">Energetický okruh</a></li>
+            <li><a href="#dechova-cviceni" class="nav-link-item">Dechová cvičení</a></li>
+            <li><a href="#prace-s-energii" class="nav-link-item">Práce s energií</a></li>
+            <li><a href="#okultni-anatomie" class="nav-link-item">Okultní anatomie</a></li>
+            <li><a href="#eter" class="nav-link-item">Éter</a></li>
+        </ul>
+    </aside>
+
+    <!-- Hlavní obsah -->
+    <main class="main-content">
+        <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+        <div class="container">
+
+            <!-- Hero sekce -->
+            <div class="hero" id="hero">
+                <div class="hero-badge">KURZ</div>
+                <h1>Základy práce s energií</h1>
+                <p>V tomto kurzu se budeme podrobně zabývat jednotlivými druhy energie, kterou můžeme využívat při práci s energií a také jejím přesným směrováním na konkrétní účel.</p>
+                <div class="tag-list">
+                    <span class="tag">Živly</span><span class="tag">Čakry</span><span class="tag">Dech</span><span class="tag">Energie</span>
+                </div>
+            </div>
+
+            <!-- 1. Energoinformační pole -->
+            <div class="section" id="energoinformacni-pole">
+                <div class="section-title">
+                    <div class="section-tag">1. část</div>
+                    <h2>Energoinformační pole</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="card">
+                    <p>Tento pojem v sobě zahrnuje v podstatě vše. Představme si toto pole jako <strong>nekončící tanec všech částic</strong>, které existují, jak se nepatrně pohybují sem a tam a vibrují.</p>
+                    <div class="info-card mt-3">
+                        <strong>🔮 Meditace na skleněnou kouli:</strong><br>
+                        Představte si svou hlavu jako skleněnou kouli plnou mléčné páry — nechte páru rozplynout až do prázdna.
+                    </div>
+                    <h3 class="mt-4">Čakry — energoinformační systém člověka</h3>
+                    <p>Základních energetických center máme <strong>21</strong> — 7 pro fyzické tělo, 7 pro astrální a 7 pro éterné tělo.</p>
+                </div>
+            </div>
+
+            <!-- 2. Sedm čaker -->
+            <div class="section" id="chakry">
+                <div class="section-title">
+                    <div class="section-tag">Energetická centra</div>
+                    <h2>Sedm čaker</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="card">
+                    <p><em>Klikněte na čakru pro zobrazení detailů.</em></p>
+                    <div id="chakra-list">
+                        <div class="chakra-item" data-chakra="1">
+                            <div class="chakra-color" style="background:#e53e3e"></div>
+                            <div><strong>1. čakra — Mūlādhāra</strong><br><span style="font-size:0.85rem">Tělesná vůle žít / Červená</span></div>
+                        </div>
+                        <div id="detail-1" class="chakra-detail">Kořenová čakra zajišťuje základní pocity bezpečí, uzemnění a tělesnou vitalitu.</div>
+                        <div class="chakra-item" data-chakra="2">
+                            <div class="chakra-color" style="background:#ed8936"></div>
+                            <div><strong>2. čakra — Svādhisthāna</strong><br><span style="font-size:0.85rem">Tvořivost / Oranžová</span></div>
+                        </div>
+                        <div id="detail-2" class="chakra-detail">Sakrální čakra – centrum kreativity, sexuality, radosti a prožívání emocí.</div>
+                        <div class="chakra-item" data-chakra="3">
+                            <div class="chakra-color" style="background:#ecc94b"></div>
+                            <div><strong>3. čakra — Maṇipūraka</strong><br><span style="font-size:0.85rem">Osobní síla / Žlutá</span></div>
+                        </div>
+                        <div id="detail-3" class="chakra-detail">Solar plexus – osobní síla, vůle, sebevědomí a schopnost jednat.</div>
+                        <div class="chakra-item" data-chakra="4">
+                            <div class="chakra-color" style="background:#48bb78"></div>
+                            <div><strong>4. čakra — Anāhata</strong><br><span style="font-size:0.85rem">Láska a soucit / Zelená</span></div>
+                        </div>
+                        <div id="detail-4" class="chakra-detail">Srdeční čakra – láska, soucit, přijetí, empatie. Spojuje hmotu a ducha.</div>
+                        <div class="chakra-item" data-chakra="5">
+                            <div class="chakra-color" style="background:#4299e1"></div>
+                            <div><strong>5. čakra — Višuddhi</strong><br><span style="font-size:0.85rem">Komunikace / Modrá</span></div>
+                        </div>
+                        <div id="detail-5" class="chakra-detail">Krční čakra – vyjadřování, pravda, komunikace, kreativní projev.</div>
+                        <div class="chakra-item" data-chakra="6">
+                            <div class="chakra-color" style="background:#667eea"></div>
+                            <div><strong>6. čakra — Adžna</strong><br><span style="font-size:0.85rem">Intuice / Indigo</span></div>
+                        </div>
+                        <div id="detail-6" class="chakra-detail">Třetí oko – intuice, vnímání, moudrost, jasnovidnost.</div>
+                        <div class="chakra-item" data-chakra="7">
+                            <div class="chakra-color" style="background:#9f7aea"></div>
+                            <div><strong>7. čakra — Sahasrāra</strong><br><span style="font-size:0.85rem">Duchovno / Fialová</span></div>
+                        </div>
+                        <div id="detail-7" class="chakra-detail">Korunní čakra – spojení s vyšším vědomím, transcendence, duchovní naplnění.</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Naše tělo a živly</h3>
+                    <div class="interactive-grid">
+                        <div class="topic-btn" data-topic="ohen">🔥 Oheň (hlava)</div>
+                        <div class="topic-btn" data-topic="voda">💧 Voda (břicho)</div>
+                        <div class="topic-btn" data-topic="vzduch">🌬️ Vzduch (hrudník)</div>
+                        <div class="topic-btn" data-topic="zeme">🌱 Země (končetiny)</div>
+                    </div>
+                    <div id="topic-ohen" class="topic-detail"><strong>🔥 Oheň – hlava, vůle, cholerik</strong><br>Elektrické fluidum, aktivní princip. Myšlení a vše aktivní.</div>
+                    <div id="topic-voda" class="topic-detail"><strong>💧 Voda – břicho, melancholik</strong><br>Magnetické fluidum, pasivní princip. Trávící šťávy, rozklad a vylučování.</div>
+                    <div id="topic-vzduch" class="topic-detail"><strong>🌬️ Vzduch – hrudník, sangvinik</strong><br>Neutrální zprostředkovatel. Odděluje hlavu od břicha a dýcháním jim zprostředkovává kontakt.</div>
+                    <div id="topic-zeme" class="topic-detail"><strong>🌱 Země – končetiny, flegmatik</strong><br>Elektromagnetické fluidum. Udržuje celistvost těla se svaly a kostmi.</div>
+                    <div class="info-card mt-3">
+                        <strong>✨ Pátý princip — Éter</strong><br>Éter se nachází v krvi, spermatu a vaječnících – to, co nazýváme vitalitou člověka.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Živly a atributy -->
+            <div class="section" id="zivly">
+                <div class="section-title">
+                    <div class="section-tag">Principy</div>
+                    <h2>Živly a jejich atributy</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="card">
+                    <p>Klíč k živlům je univerzální. Každý živel má dvě polarity: <strong>aktivní (+) tvořivé</strong> a <strong>pasivní (-) rozkladné</strong>.</p>
+                    <div class="info-card mt-3">
+                        <strong>⚡ Elektromagnetické fluidum (ÓD)</strong><br>Oheň má fluidum elektrické, voda magnetické. Pravá strana (u praváka) je aktivně elektrická, levá pasivně magnetická.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Energetický okruh -->
+            <div class="section" id="dech">
+                <div class="section-title">
+                    <div class="section-tag">Základy</div>
+                    <h2>Základní energetický okruh</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="card">
+                    <p>Propojení pólů – prostor pod šlapkami a nad hlavou.</p>
+                    <div class="info-card">
+                        <strong>🌀 Postup aktivace:</strong><br>
+                        1. 7 fázovaných dechů pod šlapky (nádech 3 doby → vedení 3 doby → výdech 3 doby).<br>
+                        2. 7 fázovaných dechů nad hlavu.<br>
+                        3. Propojení: nádech pod šlapkami → vedení před tělem nad hlavu (zádrž) → výdech nad hlavou. Pak opačně. Opakovat 7×.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Dechová cvičení -->
+            <div class="section" id="dechova-cviceni">
+                <div class="section-title">
+                    <div class="section-tag">Praktická cvičení</div>
+                    <h2>Dechová cvičení pro živly</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="card">
+                    <strong>🫁 Fázovaný dech – základ</strong><br>
+                    Nádech (3) → Zádrž (3) → Výdech (3). Pro živly Země a Vody dýcháme do 1.–3. čakry, pro Oheň a Vzduch do 4.–7. čakry.
+                </div>
+                <div class="interactive-grid">
+                    <div class="topic-btn" data-topic="dech-voda">💧 Dech pro VODU</div>
+                    <div class="topic-btn" data-topic="dech-ohen">🔥 Dech pro OHEŇ</div>
+                    <div class="topic-btn" data-topic="dech-vzduch">🌬️ Dech pro VZDUCH</div>
+                    <div class="topic-btn" data-topic="dech-zeme">🌱 Dech pro ZEMI</div>
+                </div>
+                <div id="topic-dech-voda" class="topic-detail"><strong>💧 Dech pro VODU:</strong> Fázované nádechy do 1. čakry (energie ze země). 7× pro doplnění.</div>
+                <div id="topic-dech-ohen" class="topic-detail"><strong>🔥 Dech pro OHEŇ:</strong> Fázované nádechy do 4. čakry s teplem, 14–21×.</div>
+                <div id="topic-dech-vzduch" class="topic-detail"><strong>🌬️ Dech pro VZDUCH:</strong> Od 7. čakry dolů, vedení energie s výdechem.</div>
+                <div id="topic-dech-zeme" class="topic-detail"><strong>🌱 Dech pro ZEMI:</strong> Vytvoření prostoru pod nohama a zanoření, propojení elipsou.</div>
+            </div>
+
+            <!-- 6. Práce s energií -->
+            <div class="section" id="prace-s-energii">
+                <div class="section-title"><div class="section-tag">Pro pokročilé</div><h2>Základy práce s energií</h2><div class="divider"></div></div>
+                <div class="energy-grid">
+                    <div class="card"><strong>🧲 Magnetická (voda)</strong> – ochlazení</div>
+                    <div class="card"><strong>⚡ Elektrická (oheň)</strong> – teplo</div>
+                    <div class="card"><strong>🌀 Střídavá (vzduch)</strong> – propojuje</div>
+                    <div class="card"><strong>🌍 Statická (země)</strong> – tíže</div>
+                </div>
+            </div>
+
+            <!-- 7. Okultní anatomie -->
+            <div class="section" id="okultni-anatomie">
+                <div class="section-title"><div class="section-tag">Pokročilé znalosti</div><h2>Okultní anatomie</h2><div class="divider"></div></div>
+                <div class="card">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Část těla</th><th>Přední</th><th>Zadní</th><th>Pravá</th><th>Levá</th><th>Vnitřek</th></tr></thead>
+                            <tbody>
+                                <tr><td>Hlava</td><td>Elektrická</td><td>Magnetická</td><td>Magnetická*</td><td>Elektrická*</td><td>Elektrická</td></tr>
+                                <tr><td>Oči</td><td>Neutrální</td><td>Neutrální</td><td>Elektrická</td><td>Elektrická</td><td>Magnetická</td></tr>
+                                <tr><td>Uši</td><td>Neutrální</td><td>Neutrální</td><td>Magnetická</td><td>Elektrická</td><td>Neutrální</td></tr>
+                                <tr><td>Krk</td><td>Magnetická</td><td>Magnetická</td><td>Magnetická</td><td>Elektrická</td><td>Elektrická</td></tr>
+                                <tr><td>Hrudník</td><td>Elektromagnetická</td><td>Elektrická</td><td>Neutrální</td><td>Elektrická</td><td>Neutrální</td></tr>
+                                <tr><td>Břicho</td><td>Elektrická</td><td>Magnetická</td><td>Magnetická</td><td>Elektrická</td><td>Neutrální</td></tr>
+                                <tr><td>Ruce</td><td>Neutrální</td><td>Neutrální</td><td>Magnetická</td><td>Elektrická</td><td>Neutrální</td></tr>
+                                <tr><td>Prsty</td><td>Neutrální</td><td>Neutrální</td><td>Elektrická</td><td>Elektrická</td><td>Neutrální</td></tr>
+                                <tr><td>Nohy</td><td>Neutrální</td><td>Neutrální</td><td>Magnetická</td><td>Elektrická</td><td>Magnetická</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Éter -->
+            <div class="section" id="eter">
+                <div class="section-title"><div class="section-tag">4. část</div><h2>Éter — pátý princip</h2><div class="divider"></div></div>
+                <div class="card">
+                    <div class="info-card"><strong>🌌 Akášický princip (AKÁŠA)</strong><br>Nejvyšší prapříčina bytí, sféra bez času a prostoru.</div>
+                </div>
+            </div>
+
+            <!-- Závěr -->
+            <div style="background: #e2f0e6; border-radius: 2rem; padding: 2rem; text-align: center;">
+                <span style="font-size: 2.5rem">🌿</span>
+                <p style="font-style: italic; margin: 0.5rem 0">Ať světlo, které je s vámi, září nepřehlédnutelně.</p>
+                <p><strong>Lenka Perníčková</strong></p>
+                <a href="index.html#kontakt" style="display: inline-block; margin-top: 1rem; background: #2f5a42; color: white; padding: 0.6rem 1.5rem; border-radius: 40px; text-decoration: none;">Kontaktovat poradnu →</a>
+            </div>
+        </div>
+        <footer>
+            <p>© 2026 Poradna Vesna – Lenka Perníčková | Panská 4, Olomouc</p>
+            <p><a href="index.html" style="color:#b1c7bb">Hlavní stránka</a> | <a href="kurzy.html" style="color:#b1c7bb">Kurzy</a></p>
+        </footer>
+    </main>
+</div>
+
+<script>
+    // 1. Interaktivní rozklikávání detailů čaker
+    document.querySelectorAll('.chakra-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const idx = item.getAttribute('data-chakra');
+            const detailDiv = document.getElementById(`detail-${idx}`);
+            if (detailDiv) {
+                const isVisible = detailDiv.style.display === 'block';
+                detailDiv.style.display = isVisible ? 'none' : 'block';
+            }
+        });
+    });
+
+    // 2. EFEKTY PŘI NAJETÍ MYŠÍ NA ŽIVLY
+    const elementEffects = {
+        'voda': { class: 'water-effect', color: '#2193b0' },
+        'ohen': { class: 'fire-effect', color: '#f12711' },
+        'vzduch': { class: 'air-effect', color: '#00b4db' },
+        'zeme': { class: 'earth-effect', color: '#5a3f1a' },
+        'dech-voda': { class: 'water-effect', color: '#2193b0' },
+        'dech-ohen': { class: 'fire-effect', color: '#f12711' },
+        'dech-vzduch': { class: 'air-effect', color: '#00b4db' },
+        'dech-zeme': { class: 'earth-effect', color: '#5a3f1a' }
+    };
+
+    // Při najetí myší - spustí efekt
+    document.querySelectorAll('.topic-btn').forEach(btn => {
+        const topic = btn.getAttribute('data-topic');
+        const effect = elementEffects[topic];
+        
+        if (effect) {
+            // Efekt při najetí myší
+            btn.addEventListener('mouseenter', () => {
+                btn.classList.add(effect.class);
+                // Po skončení animace odstranit třídu
+                setTimeout(() => {
+                    btn.classList.remove(effect.class);
+                }, 500);
+            });
+            
+            // Kliknutí - zobrazení detailu a zároveň efekt
+            btn.addEventListener('click', () => {
+                const topicId = btn.getAttribute('data-topic');
+                const detailDiv = document.getElementById(`topic-${topicId}`);
+                if (detailDiv) {
+                    document.querySelectorAll('.topic-detail').forEach(detail => {
+                        if (detail !== detailDiv) detail.classList.remove('show');
+                    });
+                    detailDiv.classList.toggle('show');
+                }
+                // Spustit efekt i při kliknutí
+                btn.classList.add(effect.class);
+                setTimeout(() => {
+                    btn.classList.remove(effect.class);
+                }, 500);
+            });
+        } else {
+            // Pro ostatní tlačítka jen kliknutí
+            btn.addEventListener('click', () => {
+                const topicId = btn.getAttribute('data-topic');
+                const detailDiv = document.getElementById(`topic-${topicId}`);
+                if (detailDiv) {
+                    document.querySelectorAll('.topic-detail').forEach(detail => {
+                        if (detail !== detailDiv) detail.classList.remove('show');
+                    });
+                    detailDiv.classList.toggle('show');
+                }
+            });
+        }
+    });
+
+    // 3. Aktivní položka v menu podle scrollu
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link-item');
+    const heroSection = document.getElementById('hero');
+
+    function updateActiveNav() {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                current = section.getAttribute('id');
+            }
+        });
+        if (heroSection && window.scrollY < heroSection.offsetTop + heroSection.offsetHeight - 100) {
+            current = 'hero';
+        }
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href').substring(1);
+            if (href === current) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    window.addEventListener('load', updateActiveNav);
+
+    // 4. Mobilní menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+        });
+        document.querySelectorAll('.nav-link-item').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

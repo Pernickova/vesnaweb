@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kurzy a služby | Články & rady | Poradna Vesna</title>
+    <meta name="description" content="Komplexní kurzy práce s energií, čakrami, bylinami a přírodní léčbou. Interaktivní články, bylinkové recepty a moudrost ročních období.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #fefaf5;
+            color: #1e2f24;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        /* navigace */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e8e0;
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #2c5a3b;
+        }
+
+        .logo-symbol {
+            width: 42px;
+            height: 42px;
+            background: #4a7c5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c5a3b;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #f0f5ec;
+        }
+
+        .btn-natural {
+            background: #4a7c5c;
+            color: white !important;
+            border-radius: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* HERO */
+        .hero-services {
+            background: linear-gradient(105deg, #eef3e9 0%, #dfe9da 100%);
+            border-radius: 48px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2a5238;
+        }
+
+        /* služby grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 32px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            border: 1px solid #e2ecd9;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #c7dbc0;
+            box-shadow: 0 20px 30px -12px rgba(60, 80, 40, 0.12);
+        }
+
+        /* SEKCE ČLÁNKŮ - interaktivní, filtry */
+        .clanky-wrapper {
+            background: #ffffffd9;
+            border-radius: 48px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid #e2ecd9;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.05);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e2ecd9;
+            padding-bottom: 1rem;
+        }
+
+        .filter-btn {
+            background: #f4f9ef;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2c5a3b;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn.active {
+            background: #4a7c5c;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #e0ecd7;
+        }
+
+        .category-group {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            border-left: 5px solid #8bbf7c;
+            padding-left: 1rem;
+            margin-bottom: 1.2rem;
+            color: #2a4b37;
+        }
+
+        .badge-count {
+            background: #e2ecd9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: normal;
+            color: #476b58;
+        }
+
+        .article-card {
+            background: #fefcf8;
+            border-radius: 28px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e9f0e3;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .article-card:hover {
+            background: #ffffff;
+            border-color: #c6ddbc;
+            transform: translateX(4px);
+        }
+
+        .article-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c5a3b;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-date {
+            font-size: 0.75rem;
+            background: #eef3e9;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            color: #5f7e5b;
+        }
+
+        .article-excerpt {
+            color: #3c553f;
+            margin: 0.5rem 0 0.7rem 0;
+            line-height: 1.45;
+            font-size: 0.95rem;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: #8b6b3d;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .read-more-btn:hover {
+            color: #c28a40;
+            text-decoration: underline;
+        }
+
+        .full-article-text {
+            display: none;
+            background: #f9faf5;
+            margin-top: 0.8rem;
+            padding: 1rem;
+            border-radius: 20px;
+            border-left: 3px solid #8bbf7c;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #2d3e2c;
+        }
+
+        .full-article-text.show {
+            display: block;
+            animation: slideDown 0.25s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-5px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .close-article {
+            background: #e2e8e0;
+            border: none;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            color: #2f4d2d;
+        }
+
+        .cta-block {
+            background: #2d5a3e;
+            border-radius: 40px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin: 2rem 0 1rem;
+        }
+
+        footer {
+            background: #1a3025;
+            color: #cbdcc2;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .navbar { padding: 0.75rem 1rem; }
+            .container { padding: 1rem; }
+            .article-header { flex-direction: column; }
+            .filter-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <div class="logo-symbol">🌿</div>
+            <div><strong>Poradna Vesna</strong><br><span style="font-size:0.7rem">Lenka Perníčková</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="#sluzby">Služby</a>
+            <a href="#clanky-interaktivni">Články</a>
+            <a href="#kontakt-rychlý">Kontakt</a>
+            <a href="index.html" class="btn-natural">Zpět na hlavní</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Sekce Služby -->
+    <div class="hero-services" id="sluzby">
+        <span style="background:#cfe2c5; padding:0.2rem 1rem; border-radius:60px;">🌱 KOMPLEXNÍ PÉČE</span>
+        <h1 class="section-title">Co pro vás děláme</h1>
+        <p style="font-size:1.1rem; max-width:90%">Energetické poradenství, byliny, detoxikace C.I.C., masáže a kurzy — cesta k harmonii těla i duše.</p>
+    </div>
+
+    <div class="services-grid">
+        <div class="service-card"><div class="service-icon">🧘‍♀️</div><h3>Energetické poradenství</h3><p>Práce s čakrami, odstranění bloků, individuální konzultace.</p></div>
+        <div class="service-card"><div class="service-icon">🌿</div><h3>Bylinná medicína</h3><p>Tinktury, čaje a tradiční receptury pro každé roční období.</p></div>
+        <div class="service-card"><div class="service-icon">💧</div><h3>Detoxikace organismu</h3><p>Metoda C.I.C. podle MUDr. J. Jonáše – očista jater, střev, lymfy.</p></div>
+        <div class="service-card"><div class="service-icon">🔥</div><h3>Kurzy práce s energií</h3><p>Čakry, živly, dechová cvičení & léčivý paprsek. Online i prezenčně.</p></div>
+        <div class="service-card"><div class="service-icon">🍯</div><h3>Masáže & rituály</h3><p>Medová masáž, baňkování, lymfodrenáž – úleva a obnova.</p></div>
+        <div class="service-card"><div class="service-icon">📖</div><h3>Výživové poradenství</h3><p>Podle tradiční čínské medicíny a ročních cyklů.</p></div>
+    </div>
+
+    <!-- INTERAKTIVNÍ ČLÁNKY S TEXTY A PŘEPÍNÁNÍM -->
+    <div class="clanky-wrapper" id="clanky-interaktivni">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+            <h2 style="font-size: 1.9rem; color:#2c5a3b;">📖 Bylinková knihovna & články</h2>
+            <p style="color:#58856b;">Rady, recepty a moudrost přírody</p>
+        </div>
+        
+        <!-- Filtry kategorií -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">🌿 Všechny články</button>
+            <button class="filter-btn" data-filter="jaro">🌸 My a jaro</button>
+            <button class="filter-btn" data-filter="podzim">🍂 My a podzim</button>
+            <button class="filter-btn" data-filter="joalis">💊 Preparáty Joalis</button>
+            <button class="filter-btn" data-filter="priroda">🌱 Moudrá příroda</button>
+        </div>
+
+        <!-- Dynamický kontejner pro články -->
+        <div id="articles-container"></div>
+        <div style="margin-top: 1rem; text-align: right;">
+            <a href="#" style="font-size:0.85rem;">→ archiv všech rad</a>
+        </div>
+    </div>
+
+    <!-- Rychlý kontakt -->
+    <div class="cta-block" id="kontakt-rychlý">
+        <span style="font-size: 2rem;">🌿✨</span>
+        <p style="font-size: 1.5rem; font-style: italic;">„Ať světlo, které je s vámi, září nepřehlédnutelně.“</p>
+        <p>— Lenka Perníčková</p>
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="mailto:poradna@vesna.cz" style="background: #fefaf5; color:#2c5a3b; padding:0.5rem 1.2rem; border-radius: 40px; text-decoration: none;">📧 poradna@vesna.cz</a>
+            <a href="tel:+420603123456" style="background: #fefaf5; color:#2c5a3b; padding:0.5rem 1.2rem; border-radius: 40px; text-decoration: none;">📞 +420 603 123 456</a>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">Panská 4, Olomouc | individuální konzultace po domluvě</p>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Poradna Vesna – Lenka Perníčková | Panská 4, Olomouc</p>
+    <p><small>Přírodní přístup ke zdraví – tradice, byliny, energetická harmonie.</small></p>
+</footer>
+
+<script>
+    // KOMPLETNÍ DATA ČLÁNKŮ s unikátními texty - podle originálního seznamu.
+    const articlesData = [
+        // My a jaro (7)
+        { id: 1, title: "Oslabená játra zrcadlí naše emoce", date: "13. 03. 2018", category: "jaro", excerpt: "Játra jsou nejen orgánem detoxikace, ale také sídlem hněvu a nevyjádřených emocí. Na jaře se probouzí energie dřeva – ideální čas na jejich podporu.", fullText: "Játra v tradiční čínské medicíně řídí tok energie Qi. Pokud jsou oslabená, objevuje se podrážděnost, zažívací potíže nebo bolesti v podžebří. Bylinky jako ostropestřec, pampeliška a čekanka skvěle podpoří regeneraci. Doporučuji také dechové cvičení ‘dřevěný úsměv’ a omezení smažených jídel. Křehká jarní zelenina – kopřivy, medvědí česnek – játra milují." },
+        { id: 2, title: "Princezna pampeliška – žlutá krása", date: "01. 05. 2017", category: "jaro", excerpt: "Pampeliška je zázračná bylina pro jarní očistu. Listy i kořeny podporují játra, ledviny a trávení.", fullText: "Pampeliška lékařská (Taraxacum officinale) je jedna z nejúčinnějších jarních detoxikačních bylin. Čaj z kořene rozproudí lymfu, listy působí močopravně a pomáhají při revmatismu. Z květů lze vyrobit medovou mast nebo pampeliškový sirup. Stačí nasbírat květy daleko od silnic, zalít medem a nechat 14 dní macerovat. Výsledný elixír podporuje imunitu a krásnou pleť. Vyzkoušejte i pečené kořeny jako náhražku kávy." },
+        { id: 3, title: "Jak na oteklé nohy přirozeně", date: "13. 05. 2015", category: "jaro", excerpt: "Unavené a oteklé nohy trápí mnoho žen. Pomůže zvýšený pitný režim, petržel a chladné střídavé zábaly.", fullText: "Otoky nohou často souvisejí s nedostatečným návratem lymfy nebo zpomaleným metabolismem. Skvělým pomocníkem je odvar z petržele (2 lžičky na 250 ml), lymfatická masáž směrem k tříslům a bylinkové koupele z jalovce a rozmarýnu. Také doporučuji nosit kompresní punčochy a zařadit lehké chůze. Cvik ‘kolo’ prováděný vsedě podpoří cirkulaci. Po týdnu pocítíte úlevu." },
+        { id: 4, title: "I ovoce dokáže léčit – černý rybíz", date: "27. 03. 2015", category: "jaro", excerpt: "Černý rybíz je plný vitamínu C, anthokyanů a rutinu. Posiluje cévy a pomáhá proti zánětům.", fullText: "Černý rybíz (Ribes nigrum) obsahuje více vitaminu C než citron. Listy rybízu jsou močopudné a protizánětlivé – výborné při revmatismu a dně. Šťáva z plodů podporuje činnost nadledvinek, zlepšuje zrak a pružnost cév. Tradiční recept: likér z rybízu s medem a badyánem posiluje srdce. Stačí 300 g plodů překrýt medem a nechat 3 týdny, pak scedit. Užívejte lžičku denně na jaře." },
+        { id: 5, title: "Zdravý poklad – kyselina listová B9", date: "27. 03. 2015", category: "jaro", excerpt: "Vitamín B9 (folát) je klíčový pro krvetvorbu, správné dělení buněk a prevenci anémie.", fullText: "Listová zelenina, čočka, chřest a avokádo jsou bohatým zdrojem folátu. Na jaře saháme po mladých špenátových listech a řeřiše. Nedostatek B9 se projevuje únavou, bledostí, podrážděností. Pro těhotné je zcela zásadní. Z bylinek obsahuje hodně kyseliny listové kopřiva – uvařte jarní polévku nebo nálev. Důležité je nepřehřívat dlouhou tepelnou úpravou. Jarní salát s rukolou a listy pampelišky dodá elán." },
+        { id: 6, title: "Vitamíny a náš imunitní systém (jarní posílení)", date: "15. 02. 2015", category: "jaro", excerpt: "Po zimě je potřeba doplnit vitamíny D, C, zinek a probiotika. Jarní bylinky & kvašená zelenina jsou dar.", fullText: "Jarní únava souvisí s vyčerpáním zásob vitamínů. Začněte den sklenicí teplé vody s citronem a medem, zařaďte naklíčená semena (vojtěška, ředkvičky) a bylinkové pesto z medvědího česneku. Posilovač imunity: směs echinacey, šípku a rakytníku. Dechové cvičení ‘ohnivý dech’ (kapalabháti) prohřeje organismus a pročistí průdušky. Týdenní kúra směsí jablečného octa a medu (1 lžička před jídlem) nastartuje trávení." },
+        { id: 7, title: "Než nás slunce políbí – péče o pokožku", date: "19. 01. 2015", category: "jaro", excerpt: "Jarní slunce je zrádné. Přirozená ochrana: mrkvový olej, bambucké máslo a slunečnicový lecitin.", fullText: "Pleť po zimě vyžaduje regeneraci. Mrkvový olej (maceration v oleji) dodá betakaroten, který chrání před UV zářením. Domácí balzám: bambucké máslo + kokosový olej + pár kapek kadidlového esenciálního oleje. Zábaly z jemného ovsa a heřmánku zklidní suché partie. A pamatujte – opalovací krém z oxidu zinečnatého můžete vyrobit doma smícháním s bambuckým máslem. Pokožka se odvděčí hebkostí." },
+        // My a podzim (7)
+        { id: 8, title: "Jitrocel větší – opomíjená léčivá bylina", date: "09. 08. 2019", category: "podzim", excerpt: "Jitrocel hojí rány, tiší kašel a působí protizánětlivě. Listy lze použít na obklady i sirup.", fullText: "Jitrocel větší (Plantago major) roste doslova všude. Jeho listy obsahují aukubin, který ničí bakterie a podporuje hojení. Při nachlazení: sirup z čerstvých listů s medem uvolňuje hleny. Obklad z rozdrcených listů vytáhne hnis i zaryté třísky. Čaj z jitrocele pomáhá při zánětu dásní a žaludečních vředech. Nasbírejte ho na podzim, ještě před prvními mrazy, a usušte. Ideální bylina do domácí lékárničky." },
+        { id: 9, title: "Bylinkář nikdy nezahálí – podzimní sběr léčivek", date: "03. 08. 2017", category: "podzim", excerpt: "Na podzim se sbírají kořeny (pampeliška, křen) a šípky. Mají nejvyšší sílu před zimou.", fullText: "Zatímco na jaře sbíráme nať, na podzim kopeme kořeny – obsahují nejvíce zásobních látek. Kořen pampelišky, lopuchu, křenu a anděliky vyryjte po prvních deštích.  Šípky sbírejte po prvních mrazech (ztratí svíravost). Zpracujte na tinktury, medové extrakty nebo sušení. Tradiční podzimní elixír: kořeny v lihu + med + hřebíček, podporuje imunitu. A nezapomeňte nasbírat březovou choroš – je to poklad pro játra." },
+        { id: 10, title: "Když je teplo u srdce – elixír pro chladné dny", date: "11. 10. 2014", category: "podzim", excerpt: "Zahřívající směs zázvoru, skořice, hřebíčku a medu vás postaví na nohy v sychravém počasí.", fullText: "Tento elixír posílí srdce a periferii. Nastrouhejte 5 cm čerstvého zázvoru, přidejte 3 tyčinky skořice, 5 hřebíčků a 1 lžíci medu. Zalijte 0,5 l vařící vody a nechte 20 minut vyluhovat. Popíjejte po doušcích. Podporuje prokrvení rukou a nohou, zlepšuje paměť a povzbuzuje trávení. V ájurvédě se tato směs nazývá ‘chaja pro Vátu’. Ideální proti podzimní chmurě a únavě." },
+        { id: 11, title: "Jak se bránit chřipce a nachlazení přirozeně", date: "10. 10. 2014", category: "podzim", excerpt: "Česnek, echinacea, zinek a kloktání solí jsou první linií obrany. Nezapomeňte na odpočinek.", fullText: "Při prvních známkách nachlazení vsaďte na česnekový čaj (stroužek zalít vodou, osladit medem), echinaceovou tinkturu (30 kapek 3x denně) a teplé koupele nohou s hořčičným semínkem. Kloktání mořské soli (1 lžička na sklenici) zklidní bolest v krku. Pokud horečka nepřesáhne 38,5°C, nechte tělo bojovat – podpořte ho vitamínem C ze šípkového čaje a spánkem. Třezalkový olej vetřete do hrudníku při kašli." },
+        { id: 12, title: "Medový podzim – med jako přírodní lék", date: "09. 10. 2014", category: "podzim", excerpt: "Med má antibakteriální účinky, tiší kašel a zlepšuje spánek. Ale pozor na zahřívání nad 40°C.", fullText: "Podzimní med – pastovaný řepkový nebo tmavý lesní – obsahuje více minerálů. Skvělý na posílení imunity: kaše s medem, skořicí a ořechy. Při suchém kašli promíchejte med se šťávou z citronu a teplým bylinkovým čajem (podběl, jitrocel). Na noční klid: lžička medu rozpuštěná v teplém mléce s muškátovým oříškem. Med nikdy nevařte – zničíte enzymy a vzniknou nežádoucí látky." },
+        { id: 13, title: "Podzim a naše zdraví: změna životosprávy", date: "08. 10. 2014", category: "podzim", excerpt: "Podle TČM je podzim spojen s plícemi a smutkem. Vsaďte na kořenovou zeleninu a lehké cvičení.", fullText: "S poklesem světla se mění naše energie. Plíce jsou náchylné na sucho a chlad. Jídelníček obohaťte dýní, pastinákem, batáty, čočkou. Důležitý je dostatek tekutin a zařazení fermentovaných potravin (kvašené zelí, kimči). Ráno provádějte dechové cvičení ‘plim’ – pomalý výdech přes úzké rty. Éterické oleje z eukalyptu a tea tree vyčistí vzduch v místnosti. Pečujte o emoce, dopřejte si kreativní činnosti – podzim je čas sběru a tvoření." },
+        { id: 14, title: "Co věděli staří Keltové – bukvice lékařská", date: "07. 10. 2014", category: "podzim", excerpt: "Bukvice léčila stařeckou demenci i uklidňovala nervy. Dnes zapomenutá bylina na paměť a koncentraci.", fullText: "Bukvice lékařská (Betonica officinalis) byla ve středověku ceněna jako všelék. Pozitivně ovlivňuje mozkový krevní oběh, pomáhá při úzkostech a migrénách. Čaj z bukvice (lžička na šálek) zklidňuje bušení srdce a zlepšuje paměť. Ve formě tinktury se užívala proti únavě a melancholii. Sbírá se na podzim kvetoucí nať. Kombinace s rozmarýnem vytváří skvělý nápoj pro studenty a seniory." },
+        // Joalis
+        { id: 15, title: "Řízená a kontrolovaná detoxikace organismu – C.I.C. metoda MUDr. J. Jonáše", date: "29. 10. 2014", category: "joalis", excerpt: "C.I.C. je komplexní očista jater, střev, ledvin a lymfy pod odborným vedením. Bez hladovění.", fullText: "Metoda C.I.C. (Clean Internal Clean) spočívá v užívání specifických potravních doplňků (preparáty Joalis) po dobu 9–12 týdnů. Nejprve se připraví střeva psylliem a aktivním uhlím, poté se rozpouštějí usazeniny v játrech pomocí bylin (ostropestřec, artyčok). Důraz na pitný režim a podporu lymfy saunováním. Detoxikace přináší více energie, čistší pleť a ústup alergií. Je nutná konzultace s poradkyní. Osobně provádím doprovod a úpravu jídelníčku. Mnoho klientů zaznamenalo úlevu od ekzémů, migrén a únavového syndromu." },
+        // Moudrá příroda
+        { id: 16, title: "Jak vyzrát na bradavice – přírodní recepty bez chemie", date: "04. 10. 2015", category: "priroda", excerpt: "Bradavice mizí díky vlaštovičníku, tea tree oleji nebo octu. Trpělivost je klíč.", fullText: "Vlaštovičník větší – oranžové mléko – je starobylý prostředek proti bradavicím. Aplikujte 2x denně přímo na bradavici, zakryjte náplastí. Tea tree olej (ředěný) působí antiviroticky. Další babská rada: přiložte na noc slupku z banánu. Ocet jablečný namočený ve vatě působí leptavě. Důležitá je podpora imunity – echinacea a zinek. Pokud bradavice nezmizí za 2 měsíce, obraťte se na odborníka." },
+        { id: 17, title: "Aloe vera – královna krásy (vnitřní i vnější)", date: "29. 10. 2014", category: "priroda", excerpt: "Aloe zvlhčuje, hojí popáleniny a podporuje trávení. Pravidelná konzumace gelu čistí krev.", fullText: "Domácí pěstování aloe vera je snadné – potřebuje slunné místo a málo vody. Vnitřně užívejte 2 polévkové lžíce gelu denně (pouze z rostliny staré minimálně 3 roky). Při pálení žáhy, zácpě nebo zvýšené imunitě. Zevně: uřízněte list, podélně rozřízněte a přiložte dužninou na spáleninu, akné nebo opar. Aloe vera + vitamín E vytvoří skvělý noční krém. Pozor – lidé s alergií na liliovité mohou mít reakci." },
+        { id: 18, title: "Před bezem smekni, před hlohem klekni – moudrost předků", date: "29. 10. 2014", category: "priroda", excerpt: "Bez černý léčí horečku a nachlazení, hloh posiluje srdce. Květy i plody jsou poklady.", fullText: "Bezinkový sirup je protizánětlivý a antivirový, dokonalý na chřipku. Květy se sbírají v červnu, plody až po prvních mrazech (syrové plody jsou mírně jedovaté). Hloh obecný (Crataegus) reguluje tlak a posiluje srdeční sval, užívá se jako čaj nebo tinktura. Kombinace hlohu a jmelí snižuje krevní tlak. Staří Slované věřili, že bez chrání dům před zlými silami – větvička nad dveřmi." },
+        { id: 19, title: "Cestování s bylinkami – moravské zlato slivovice", date: "12. 10. 2014", category: "priroda", excerpt: "Slivovice macerovaná s pelyňkem, mátou nebo meduňkou pomáhá trávení a uvolňuje křeče.", fullText: "Bylinkové likéry mají tradici po celé Evropě. Domácí ‘hořká’ z pelyňku, řebříčku a anděliky podporuje tvorbu žluči. Slivovice či vodka jako extrakční prostředek vytáhne účinné látky. Recept na žaludeční kapky: 300 ml alkoholu, 2 lžíce sušené meduňky, 1 lžička koriandru, kůra z citronu – macerovat 3 týdny. Užívejte 20 kapek po těžkých jídlech. A pamatujte – s mírou, alkohol není lék v množství." },
+        { id: 20, title: "Co možná nevíte o bylinách – časté chyby při užívání", date: "12. 10. 2014", category: "priroda", excerpt: "Dlouhé vaření ničí silice, předávkování může škodit. Bylinky nejsou jen čaj.", fullText: "Mnoho lidí vaří byliny 15 minut, ale třeba heřmánek nebo máta stačí zalít a 10 minut louhovat. Kořeny (lopuch, pampeliška) se vaří krátce (5–10 minut). Další chyba: užívání třezalky s antikoncepcí – snižuje její účinnost. Důležité je střídat bylinky, nepít jeden druh měsíce. Kombinace bylinek může zesílit efekt (např. meduňka + kozlík na spaní). Nikdy nepodceňujte kontraindikace – lékořice zvyšuje tlak, jalovec dráždí ledviny." },
+        { id: 21, title: "Třezalka tečkovaná – světlo pro naše tělo (krevníček, svatojánská bylina)", date: "12. 10. 2014", category: "priroda", excerpt: "Třezalka zlepšuje náladu, hojí nervy a působí antiviroticky (herpes). Ideální na podzimní smutek.", fullText: "Třezalkový olej (červený macerát) je topický lék na popáleniny, odřeniny, bolesti svalů. Vnitřně se užívá při lehké až středně těžké depresi, úzkosti a poruchách spánku. Čaj z třezalky posiluje nervový systém, ale pozor na fotosenzitivitu! Během užívání se vyhněte slunění. Třezalka interaguje s mnoha léky (antidepresiva, warfarin). Krásný rituál: svatojánský věnec z třezalky a sušených květů ochrání domov. Sbírejte ji na suchém místě na přelomu června a července." }
+    ];
+
+    function renderArticles(filter = "all") {
+        const container = document.getElementById("articles-container");
+        if(!container) return;
+        let filtered = articlesData;
+        if(filter !== "all") {
+            filtered = articlesData.filter(art => art.category === filter);
+        }
+        // seskupit podle kategorií pro hezké zobrazení
+        const grouped = {};
+        filtered.forEach(art => {
+            if(!grouped[art.category]) grouped[art.category] = [];
+            grouped[art.category].push(art);
+        });
+        
+        let html = '';
+        const categoryNames = {
+            jaro: { name: "🌸 My a jaro", icon: "🌸" },
+            podzim: { name: "🍂 My a podzim", icon: "🍂" },
+            joalis: { name: "💊 Preparáty Joalis", icon: "💊" },
+            priroda: { name: "🌱 Moudrá příroda", icon: "🌱" }
+        };
+        
+        for(let [cat, articles] of Object.entries(grouped)) {
+            const catInfo = categoryNames[cat] || { name: cat, icon: "📖" };
+            html += `<div class="category-group" data-category-group="${cat}">
+                        <div class="category-title">
+                            <span>${catInfo.icon}</span> ${catInfo.name}
+                            <span class="badge-count">${articles.length} článků</span>
+                        </div>`;
+            articles.forEach(art => {
+                // unikátní ID pro rozkliknutí
+                const artId = `art-${art.id}`;
+                html += `<div class="article-card" data-article-id="${art.id}">
+                            <div class="article-header">
+                                <span class="article-title">🌿 ${art.title}</span>
+                                <span class="article-date">${art.date}</span>
+                            </div>
+                            <div class="article-excerpt">${art.excerpt}</div>
+                            <button class="read-more-btn" data-id="${art.id}">📖 Celý článek ⋮</button>
+                            <div id="${artId}" class="full-article-text">
+                                ${art.fullText}
+                                <div style="text-align:right; margin-top:12px;"><button class="close-article" data-id="${art.id}">✖ Zavřít</button></div>
+                            </div>
+                         </div>`;
+            });
+            html += `</div>`;
+        }
+        if(filtered.length === 0) {
+            html = `<div style="padding:2rem; text-align:center;">✨ Žádné články v této kategorii, zkuste jinou filtr 🌿</div>`;
+        }
+        container.innerHTML = html;
+        
+        // attach event listeners pro tlačítka "celý článek" a "zavřít"
+        document.querySelectorAll('.read-more-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const fullDiv = document.getElementById(`art-${id}`);
+                if(fullDiv) {
+                    fullDiv.classList.toggle('show');
+                    // změní text tlačítka
+                    if(fullDiv.classList.contains('show')) {
+                        btn.innerHTML = '📖 Zavřít článek ⋮';
+                    } else {
+                        btn.innerHTML = '📖 Celý článek ⋮';
+                    }
+                }
+            });
+        });
+        document.querySelectorAll('.close-article').forEach(closeBtn => {
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = closeBtn.getAttribute('data-id');
+                const fullDiv = document.getElementById(`art-${id}`);
+                const correspondingBtn = document.querySelector(`.read-more-btn[data-id="${id}"]`);
+                if(fullDiv) {
+                    fullDiv.classList.remove('show');
+                    if(correspondingBtn) correspondingBtn.innerHTML = '📖 Celý článek ⋮';
+                }
+            });
+        });
+    }
+    
+    // Inicializace + filtry
+    document.addEventListener("DOMContentLoaded", () => {
+        renderArticles("all");
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                const filterVal = btn.getAttribute("data-filter");
+                renderArticles(filterVal);
+            });
+        });
+    });
+</script>
+</body>
+</html>
